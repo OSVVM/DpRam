@@ -111,9 +111,9 @@ begin
     variable ExpectedData : iData'subtype ; 
   begin
     -- Initialize Outputs
-    Address     <= (others => 'X') ; 
+    Address     <= (Address'range  => 'X') ; 
     Write       <= 'X' ; 
-    oData       <= (others => 'X') ; 
+    oData       <= (oData'range => 'X') ; 
     
     wait for 0 ns ; 
     

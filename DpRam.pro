@@ -38,7 +38,7 @@
 #  limitations under the License.
 #
 library osvvm_DpRam
-analyze ./src/Dpram_PT.vhd
+analyze ./src/DpRam_PT.vhd
 analyze ./src/DpRam_Singleton.vhd
 
 analyze ./src/DpRamManager_Blocking.vhd

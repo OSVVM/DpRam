@@ -76,7 +76,7 @@ package DpRamComponentPkg is
 
 
   ------------------------------------------------------------
-  component DpRamManager is
+  component DpRamController is
   ------------------------------------------------------------
   generic (
     MODEL_ID_NAME    : string := "" ;
@@ -102,7 +102,7 @@ package DpRamComponentPkg is
     -- Testbench Transaction Interface
     TransRec    : InOut AddressBusRecType 
   ) ;
-  end component DpRamManager ;
+  end component DpRamController ;
 
 end package DpRamComponentPkg ;
 

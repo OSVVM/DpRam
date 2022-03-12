@@ -1,6 +1,6 @@
 --
---  File Name:         DpRamManager.vhd
---  Design Unit Name:  DpRamManager
+--  File Name:         DpRamController.vhd
+--  Design Unit Name:  DpRamController
 --  Revision:          OSVVM MODELS STANDARD VERSION
 --
 --  Maintainer:        Jim Lewis      email:  jim@synthworks.com
@@ -51,7 +51,7 @@ library osvvm ;
 library osvvm_common ;
   context osvvm_common.OsvvmCommonContext ;
 
-entity DpRamManager is
+entity DpRamController is
 generic (
   MODEL_ID_NAME    : string := "" ;
   tperiod_Clk      : time   := 10 ns ;
@@ -80,10 +80,10 @@ port (
   -- Derive ModelInstance label from path_name
   constant MODEL_INSTANCE_NAME : string :=
     -- use MODEL_ID_NAME Generic if set, otherwise use instance label (preferred if set as entityname_1)
-    IfElse(MODEL_ID_NAME /= "", MODEL_ID_NAME, PathTail(to_lower(DpRamManager'PATH_NAME))) ;
+    IfElse(MODEL_ID_NAME /= "", MODEL_ID_NAME, PathTail(to_lower(DpRamController'PATH_NAME))) ;
 
-end entity DpRamManager ;
-architecture SimpleBlocking of DpRamManager is
+end entity DpRamController ;
+architecture SimpleBlocking of DpRamController is
   signal ModelID : AlertLogIDType ;
 
 begin
@@ -95,9 +95,8 @@ begin
     variable ID : AlertLogIDType ;
   begin
     -- Alerts
-    ID                      := GetAlertLogID(MODEL_INSTANCE_NAME) ;
-    ModelID                 <= ID ;
-
+    ID        := NewID(MODEL_INSTANCE_NAME) ;
+    ModelID   <= ID ;
     wait ;
   end process Initialize ;
 

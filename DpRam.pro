@@ -41,7 +41,7 @@ library osvvm_DpRam
 analyze ./src/DpRam_PT.vhd
 analyze ./src/DpRam_Singleton.vhd
 
-analyze ./src/DpRamManager_Blocking.vhd
+analyze ./src/DpRamController_Blocking.vhd
 
 analyze ./src/DpRamComponentPkg.vhd
 analyze ./src/DpRamContext.vhd

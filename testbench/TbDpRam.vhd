@@ -135,7 +135,7 @@ begin
 
 
   ------------------------------------------------------------
-  DpRamManager_1 : DpRamManager 
+  DpRamController_1 : DpRamController 
   ------------------------------------------------------------
   port map (
     -- Globals
@@ -153,7 +153,7 @@ begin
   ) ;
   
   ------------------------------------------------------------
-  DpRamManager_2 : DpRamManager 
+  DpRamController_2 : DpRamController 
   ------------------------------------------------------------
   port map (
     -- Globals

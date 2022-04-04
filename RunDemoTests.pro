@@ -38,11 +38,5 @@
 #  limitations under the License.
 #  
 
-TestSuite Uart
-library   osvvm_TbUart
-
-analyze  ./testbench/TestCtrl_e.vhd
-analyze  ./testbench/TbUart.vhd
-
-RunTest  ./testbench/TbUart_SendGet1.vhd
-RunTest  ./testbench/TbUart_SendGet2.vhd
+# Currently there is only one test, so run it via RunAllTests
+include RunAllTests.pro

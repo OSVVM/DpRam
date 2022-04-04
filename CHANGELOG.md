@@ -5,7 +5,12 @@
 | 2022.03   | March    2022  | Initial release
 
 ## 2022.03 March 2022
-- Added new repository
+- New repository with 
+    - DpRam_Singleton.vhd - Singleton version of DPRAM
+    - DpRam_PT.vhd - Protected Type version of DPRAM
+    - DpRamController_Blocking.vhd - DPRAM Controller Verification Component
+    - DpRamContext.vhd - Package references for DpRam
+    - DpRamComponentPkg.vhd - component declaration for DPRAM and DpRamController
 
  
 ## Copyright and License

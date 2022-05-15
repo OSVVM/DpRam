@@ -38,6 +38,10 @@
 #  limitations under the License.
 #  
 
+library osvvm_TbDpRam
+
+analyze  OsvvmTestCommonPkg.vhd
+
 analyze  TestCtrl_e.vhd
 analyze  TbDpRam.vhd
 

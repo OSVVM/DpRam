@@ -68,11 +68,11 @@ entity DpRam is
 end entity DPRam ;
 
 architecture Singleton of DpRam is
-  constant INST_NAME : string :=
+  constant RESOLVED_MEMORY_NAME : string :=
     IfElse(MEMORY_NAME /= "", MEMORY_NAME, to_lower(PathTail(DpRam'PATH_NAME))) ;
     
   constant Mem : MemoryIdType := NewID(
-    Name      => INST_NAME, 
+    Name      => RESOLVED_MEMORY_NAME, 
     AddrWidth => ADDR_WIDTH,  
     DataWidth => DATA_WIDTH, 
     Search    => NAME

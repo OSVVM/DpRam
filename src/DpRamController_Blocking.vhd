@@ -80,7 +80,7 @@ port (
   -- Derive ModelInstance label from path_name
   constant MODEL_INSTANCE_NAME : string :=
     -- use MODEL_ID_NAME Generic if set, otherwise use instance label (preferred if set as entityname_1)
-    IfElse(MODEL_ID_NAME /= "", MODEL_ID_NAME, PathTail(to_lower(DpRamController'PATH_NAME))) ;
+    IfElse(MODEL_ID_NAME /= "", MODEL_ID_NAME, to_lower(PathTail(DpRamController'PATH_NAME))) ;
 
 end entity DpRamController ;
 architecture SimpleBlocking of DpRamController is

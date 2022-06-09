@@ -141,8 +141,8 @@ begin
           Address <= SafeResize(TransRec.Address, Address'length)    after tpd_Clk_Address ;
           oData   <= SafeResize(TransRec.DataToModel, oData'length)  after tpd_Clk_oData ;
           Write   <= '1' after tpd_Clk_Write ; 
-          
           WaitForClock(Clk) ; 
+          
           -- Write Operation Accepted at this clock edge
           Log( ModelID,
             "Write Operation, Address: " & to_hxstring(Address) &
@@ -158,10 +158,9 @@ begin
         when READ_OP | READ_CHECK =>
           Address <= SafeResize(TransRec.Address, Address'length)      after tpd_Clk_Address ;
           Write   <= '0' after tpd_Clk_Write ; 
-          
           WaitForClock(Clk) ; 
-          Address <= not Address after tpd_Clk_Address ;
           
+          Address <= not Address after tpd_Clk_Address ;
           WaitForClock(Clk) ; 
 
 --! TODO: Add settings for read taking another clock          

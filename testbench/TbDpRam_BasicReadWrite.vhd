@@ -78,7 +78,7 @@ begin
     -- AlertIfDiff("./results/TbDpRam_BasicReadWrite.txt", "../AXI4/Axi4/testbench/validated_results/TbDpRam_BasicReadWrite.txt", "") ; 
 
     EndOfTestReports ; 
-    std.env.stop(GetAlertCount) ; 
+    std.env.stop ; 
     wait ; 
   end process ControlProc ; 
 

@@ -1,8 +1,8 @@
 # DpRam Behavioral and Verification Component Change Log
 
-| Revision  | Revision Date  |  Release Summary | 
-------------|----------------|----------- 
-| 2022.03   | March    2022  | Initial release
+| Revision  |  Release Summary | 
+------------|----------- 
+| 2022.03   | Initial release
 
 ## 2022.03 March 2022
 - New repository with 

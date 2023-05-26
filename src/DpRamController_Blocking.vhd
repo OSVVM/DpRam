@@ -108,6 +108,7 @@ begin
   TransactionHandler : process
     alias Operation : AddressBusOperationType is TransRec.Operation ;
     variable ExpectedData : iData'subtype ; 
+    variable LocalAddress : Address'subtype ; 
   begin
     -- Initialize Outputs
     Address     <= (Address'range  => 'X') ; 
@@ -138,29 +139,31 @@ begin
 
         -- Model Transaction Dispatch
         when WRITE_OP =>
-          Address <= SafeResize(TransRec.Address, Address'length)    after tpd_Clk_Address ;
+          LocalAddress := SafeResize(TransRec.Address, Address'length);
+          Address <= LocalAddress after tpd_Clk_Address ;
           oData   <= SafeResize(TransRec.DataToModel, oData'length)  after tpd_Clk_oData ;
           Write   <= '1' after tpd_Clk_Write ; 
           WaitForClock(Clk) ; 
           
           -- Write Operation Accepted at this clock edge
           Log( ModelID,
-            "Write Operation, Address: " & to_hxstring(Address) &
+            "Write Operation, Address: " & to_hxstring(LocalAddress) &
             "  Data: " & to_hxstring(oData) &
             "  Operation# " & to_string (TransRec.Rdy),
             INFO,
             TransRec.StatusMsgOn
           ) ;
-          Address <= not Address after tpd_Clk_Address ;
+          Address <= not LocalAddress after tpd_Clk_Address ;
           oData   <= not oData    after tpd_Clk_oData ;
           Write   <= '0' after tpd_Clk_Write ; 
           
         when READ_OP | READ_CHECK =>
-          Address <= SafeResize(TransRec.Address, Address'length)      after tpd_Clk_Address ;
+          LocalAddress := SafeResize(TransRec.Address, Address'length);
+          Address <= LocalAddress after tpd_Clk_Address ;
           Write   <= '0' after tpd_Clk_Write ; 
           WaitForClock(Clk) ; 
           
-          Address <= not Address after tpd_Clk_Address ;
+          Address <= not LocalAddress after tpd_Clk_Address ;
           WaitForClock(Clk) ; 
 
 --! TODO: Add settings for read taking another clock          
@@ -174,14 +177,14 @@ begin
             ExpectedData  := SafeResize(TransRec.DataToModel, ExpectedData'length) ;
             AffirmIfEqual(ModelID,
               iData, ExpectedData,
-              "Read Operation, Address: " & to_hxstring(Address) &
+              "Read Operation, Address: " & to_hxstring(LocalAddress) &
               "  Operation# " & to_string (TransRec.Rdy) & 
               "  Data: ", 
               TransRec.StatusMsgOn or IsLogEnabled(ModelID, INFO)
             ) ;
           else
             Log( ModelID,
-              "Read Operation, Address: " & to_hxstring(Address) &
+              "Read Operation, Address: " & to_hxstring(LocalAddress) &
               "  Data: " & to_hxstring(iData) &
               "  Operation# " & to_string (TransRec.Rdy),
               INFO,
@@ -190,19 +193,20 @@ begin
           end if ; 
           
         when WRITE_AND_READ =>
-          Address <= SafeResize(TransRec.Address, Address'length)    after tpd_Clk_Address ;
+          LocalAddress := SafeResize(TransRec.Address, Address'length);
+          Address <= LocalAddress after tpd_Clk_Address ;
           oData   <= SafeResize(TransRec.DataToModel, oData'length)  after tpd_Clk_oData ;
           Write   <= '1' after tpd_Clk_Write ; 
           
           WaitForClock(Clk) ; 
           Log( ModelID,
-            "Write Operation, Address: " & to_hxstring(Address) &
+            "Write Operation, Address: " & to_hxstring(LocalAddress) &
             "  Data: " & to_hxstring(oData) &
             "  Operation# " & to_string (TransRec.Rdy),
             INFO,
             TransRec.StatusMsgOn
           ) ;
-          Address <= not Address after tpd_Clk_Address ;
+          Address <= not LocalAddress after tpd_Clk_Address ;
           oData   <= not oData    after tpd_Clk_oData ;
           Write   <= '0' after tpd_Clk_Write ; 
         
@@ -218,14 +222,14 @@ begin
             ExpectedData  := SafeResize(TransRec.DataToModel, ExpectedData'length) ;
             AffirmIfEqual(ModelID,
               iData, ExpectedData,
-              "Read Operation, Address: " & to_hxstring(Address) &
+              "Read Operation, Address: " & to_hxstring(LocalAddress) &
               "  Operation# " & to_string (TransRec.Rdy) & 
               "  Data: ", 
               TransRec.StatusMsgOn or IsLogEnabled(ModelID, INFO)
             ) ;
           else
             Log( ModelID,
-              "Read Operation, Address: " & to_hxstring(Address) &
+              "Read Operation, Address: " & to_hxstring(LocalAddress) &
               "  Data: " & to_hxstring(iData) &
               "  Operation# " & to_string (TransRec.Rdy),
               INFO,

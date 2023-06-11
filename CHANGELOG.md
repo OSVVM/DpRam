@@ -2,7 +2,13 @@
 
 | Revision  |  Release Summary | 
 ------------|----------- 
+| 2023.05   | Bug Fix to logging of address during read operation
 | 2022.03   | Initial release
+
+## 2022.05 March 2022
+- DpRamController_Blocking.vhd
+    - Bug Fix: Added LocalAddress to hold address so read operation logs correct address
+
 
 ## 2022.03 March 2022
 - New repository with 

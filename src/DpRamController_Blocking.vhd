@@ -19,6 +19,7 @@
 --
 --  Revision History:
 --    Date      Version    Description
+--    05/2023   2023.05    Added LocalAddress to hold address so read operation log correct address
 --    03/2022   2022.03    Initial revision
 --
 --

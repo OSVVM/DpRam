@@ -75,7 +75,7 @@ begin
     
     TranscriptClose ; 
     -- Printing differs in different simulators due to differences in process order execution
-    -- AlertIfDiff("./results/TbDpRam_BasicReadWrite.txt", "../AXI4/Axi4/testbench/validated_results/TbDpRam_BasicReadWrite.txt", "") ; 
+    -- AlertIfDiff("./results/TbDpRam_BasicReadWrite.txt", "../DpRam/testbench/validated_results/TbDpRam_BasicReadWrite.txt", "") ; 
 
     EndOfTestReports ; 
     std.env.stop ; 
@@ -147,8 +147,6 @@ begin
 
 
 end BasicReadWrite ;
-
-library OSVVM_AXI4 ;
 
 Configuration TbDpRam_BasicReadWrite of TbDpRam is
   for TestHarness

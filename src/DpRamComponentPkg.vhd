@@ -9,7 +9,7 @@
 --
 --
 --  Description:
---      Package for AXI4 Components
+--      Package for DpRam Components
 --
 --
 --  Developed by:

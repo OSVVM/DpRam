@@ -6,7 +6,7 @@
 --  Maintainer:        Jim Lewis      email:  jim@synthworks.com
 --
 --  Description
---      Context Declaration for using Axi4 models
+--      Context Declaration for using DpRam models
 --
 --  Developed by/for:
 --        SynthWorks Design Inc.

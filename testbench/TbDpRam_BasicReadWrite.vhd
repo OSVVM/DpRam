@@ -124,7 +124,7 @@ begin
     wait until nReset = '1' ;  
     -- First Alignment to clock
     WaitForClock(Manager2Rec, 1) ; 
-    Manager2Id := NewID("Manager1", TbID) ; 
+    Manager2Id := NewID("Manager2", TbID) ; 
 
     for i in 1 to 10 loop 
       Write(Manager2Rec, X"02_0000" + i, X"2000" + i ) ;

@@ -172,11 +172,11 @@ begin
 
     WaitForClock(Manager2Rec, 8) ; 
 
-    ReadBurst(Manager1Rec, X"03_0001", 10);
+    ReadBurst(Manager2Rec, X"03_0001", 10);
     
     -- and finally check the received values
     for i in 1 to 10 loop
-    	CheckExpected(Manager1Rec.ReadBurstFifo, X"3000" + i);
+    	CheckExpected(Manager2Rec.ReadBurstFifo, X"3000" + i);
     end loop;
 
     WaitForBarrier(TestDone) ;

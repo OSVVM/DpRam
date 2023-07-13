@@ -243,36 +243,32 @@ begin
             ) ;
           end if ; 
           
-        when MULTIPLE_DRIVER_DETECT =>
-          Alert(ModelID, "Multiple Drivers on Transaction Record." & 
-                         "  Transaction # " & to_string(TransRec.Rdy), FAILURE) ;
-
         when WRITE_BURST =>
             log(ModelID, 
-            "Initiating write burst operation in DpRamController", 
-            INFO,
-            TransRec.StatusMsgOn);
+              "Initiating write burst operation in DpRamController", 
+              INFO,
+              TransRec.StatusMsgOn);
 
             -- Get number of FIFO elements
             NumFifoElements := TransRec.DataWidth ;
             log(ModelID, 
-            "Number of FIFO elements = " & to_string(NumFifoElements), 
-            INFO,
-            TransRec.StatusMsgOn) ;
+              "Number of FIFO elements = " & to_string(NumFifoElements), 
+              INFO,
+              TransRec.StatusMsgOn) ;
             
             -- Get Starting address
             LocalAddress := SafeResize(TransRec.Address, Address'length);
             log(ModelID, 
-            "Start address = " & to_hxstring(LocalAddress), 
-            INFO,
-            TransRec.StatusMsgOn) ;
+              "Start address = " & to_hxstring(LocalAddress), 
+              INFO,
+              TransRec.StatusMsgOn) ;
 
             -- Do write burst
             for WriteLoop in 1 to NumFifoElements loop
               -- write operation starts by presenting address, data, and write indicator
               Address <= LocalAddress after tpd_Clk_Address ;
-              oData <= Pop(TransRec.WriteBurstFifo);
-              Write <= '1' after tpd_Clk_Write ; 
+              oData   <= Pop(TransRec.WriteBurstFifo)  after tpd_Clk_oData ;
+              Write   <= '1' after tpd_Clk_Write ; 
               
               WaitForClock(Clk) ; 
               
@@ -293,23 +289,23 @@ begin
 
         when READ_BURST =>
           log(ModelID, 
-          "Initiating read burst operation in DpRamController", 
-          INFO,
-          TransRec.StatusMsgOn);
+            "Initiating read burst operation in DpRamController", 
+            INFO,
+            TransRec.StatusMsgOn);
 
           -- Get number of FIFO elements
           NumFifoElements := TransRec.DataWidth ;
           log(ModelID, 
-          "Number of FIFO elements = " & to_string(NumFifoElements), 
-          INFO,
-          TransRec.StatusMsgOn) ;
+            "Number of FIFO elements = " & to_string(NumFifoElements), 
+            INFO,
+            TransRec.StatusMsgOn) ;
           
           -- Get Starting address
           LocalAddress := SafeResize(TransRec.Address, Address'length);
           log(ModelID, 
-          "Start address = " & to_hxstring(LocalAddress), 
-          INFO,
-          TransRec.StatusMsgOn) ;
+            "Start address = " & to_hxstring(LocalAddress), 
+            INFO,
+            TransRec.StatusMsgOn) ;
 
           -- Do read burst:
           -- read operation starts by presenting address
@@ -337,9 +333,13 @@ begin
               TransRec.StatusMsgOn
             ) ;
           end loop;
+
+        when MULTIPLE_DRIVER_DETECT =>
+          Alert(ModelID, "Multiple Drivers on Transaction Record." & 
+                         "  Transaction # " & to_string(TransRec.Rdy), FAILURE) ;
+
         when others =>
-          log("Hello!");
-          Alert(ModelID, "Unimplemented Transaction!!: " & to_string(Operation), FAILURE) ;
+          Alert(ModelID, "Unimplemented Transaction: " & to_string(Operation), FAILURE) ;
 
       end case ;
     end loop ;

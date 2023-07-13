@@ -39,4 +39,5 @@
 #
 TestSuite DpRam
 library osvvm_TbDpRam
+build ./DpRam.pro
 include ./testbench

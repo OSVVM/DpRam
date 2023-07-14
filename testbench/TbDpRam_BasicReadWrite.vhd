@@ -83,7 +83,7 @@ begin
 
   ------------------------------------------------------------
   -- Manager1Proc
-  --   Generate transactions for AxiManager
+  --   Generate transactions for DpRamManager
   ------------------------------------------------------------
   Manager1Proc : process
     variable Data : std_logic_vector(DATA_WIDTH-1 downto 0) ; 
@@ -137,7 +137,7 @@ begin
   
   ------------------------------------------------------------
   -- Manager2Proc
-  --   Generate transactions for AxiManager
+  --   Generate transactions for DpRamManager
   ------------------------------------------------------------
   Manager2Proc : process
     variable Data : std_logic_vector(DATA_WIDTH-1 downto 0) ; 

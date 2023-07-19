@@ -93,7 +93,7 @@ package DpRamComponentPkg is
     Clk         : In   std_logic ;
     nReset      : In   std_logic ;
 
-    -- AXI Manager Functional Interface
+    -- DpRam Manager Functional Interface
     Address     : Out  std_logic_vector ;
     Write       : Out std_logic ;
     oData       : Out std_logic_vector ;

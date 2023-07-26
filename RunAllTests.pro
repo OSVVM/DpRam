@@ -1,4 +1,4 @@
-#  File Name:         Axi4.pro
+#  File Name:         RunAllTests.pro
 #  Revision:          STANDARD VERSION
 #
 #  Maintainer:        Jim Lewis      email:  jim@synthworks.com
@@ -7,7 +7,7 @@
 #
 #
 #  Description:
-#        Script to compile the Axi4 models  
+#        Script to compile the DpRam models  
 #
 #  Developed for:
 #        SynthWorks Design Inc.
@@ -39,4 +39,5 @@
 #
 TestSuite DpRam
 library osvvm_TbDpRam
+build ./DpRam.pro
 include ./testbench

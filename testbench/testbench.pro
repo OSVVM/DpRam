@@ -7,7 +7,7 @@
 #
 #
 #  Description:
-#        Script to run one Axi4 test  
+#        Script to run one DpRam test  
 #
 #  Developed for:
 #        SynthWorks Design Inc.

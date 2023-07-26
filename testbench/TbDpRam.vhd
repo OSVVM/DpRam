@@ -9,7 +9,7 @@
 --
 --
 --  Description:
---      Simple AXI Lite Manager Model
+--      Simple DpRam Manager Model
 --
 --
 --  Developed by:
@@ -142,7 +142,7 @@ begin
     Clk         => Clk   ,
     nReset      => nReset,
 
-    -- AXI Manager Functional Interface
+    -- DpRam Manager Functional Interface
     Address     => AddrA   , 
     Write       => WriteA  , 
     oData       => DataInA , 
@@ -160,7 +160,7 @@ begin
     Clk         => Clk   ,
     nReset      => nReset,
 
-    -- AXI Manager Functional Interface
+    -- DpRam Manager Functional Interface
     Address     => AddrB   , 
     Write       => WriteB  , 
     oData       => DataInB , 

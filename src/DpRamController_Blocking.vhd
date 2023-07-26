@@ -110,14 +110,19 @@ begin
     alias Operation : AddressBusOperationType is TransRec.Operation ;
     variable ExpectedData : iData'subtype ; 
     variable LocalAddress : Address'subtype ; 
+
+    variable NumFifoElements   : integer ; -- number of fifo elements
   begin
     -- Initialize Outputs
     Address     <= (Address'range  => 'X') ; 
     Write       <= 'X' ; 
     oData       <= (oData'range => 'X') ; 
     
-    wait for 0 ns ; 
-    
+    wait for 0 ns ; -- Allow ModelID to become valid
+    TransRec.WriteBurstFifo <= NewID("WriteBurstFifo",         ModelID, Search => PRIVATE_NAME) ;
+    TransRec.ReadBurstFifo  <= NewID("ReadBurstFifo",          ModelID, Search => PRIVATE_NAME) ;
+
+
     loop
       WaitForTransaction(
          Clk      => Clk,
@@ -238,6 +243,97 @@ begin
             ) ;
           end if ; 
           
+        when WRITE_BURST =>
+            log(ModelID, 
+              "Initiating write burst operation in DpRamController", 
+              INFO,
+              TransRec.StatusMsgOn);
+
+            -- Get number of FIFO elements
+            NumFifoElements := TransRec.DataWidth ;
+            log(ModelID, 
+              "Number of FIFO elements = " & to_string(NumFifoElements), 
+              INFO,
+              TransRec.StatusMsgOn) ;
+            
+            -- Get Starting address
+            LocalAddress := SafeResize(TransRec.Address, Address'length);
+            log(ModelID, 
+              "Start address = " & to_hxstring(LocalAddress), 
+              INFO,
+              TransRec.StatusMsgOn) ;
+
+            -- Do write burst
+            for WriteLoop in 1 to NumFifoElements loop
+              -- write operation starts by presenting address, data, and write indicator
+              Address <= LocalAddress after tpd_Clk_Address ;
+              oData   <= Pop(TransRec.WriteBurstFifo)  after tpd_Clk_oData ;
+              Write   <= '1' after tpd_Clk_Write ; 
+              
+              WaitForClock(Clk) ; 
+              
+              -- Write Operation Accepted at this clock edge
+              Log( ModelID,
+                "Write Operation, Address: " & to_hxstring(LocalAddress) &
+                "  Data: " & to_hxstring(oData) &
+                "  Operation# " & to_string (TransRec.Rdy),
+                INFO,
+                TransRec.StatusMsgOn);
+
+              -- Increment LocalAddress
+              LocalAddress := LocalAddress + 1;
+          end loop;
+          Address <= not LocalAddress after tpd_Clk_Address ;
+          oData   <= not oData    after tpd_Clk_oData ;  
+          Write   <= '0' after tpd_Clk_Write ;
+
+        when READ_BURST =>
+          log(ModelID, 
+            "Initiating read burst operation in DpRamController", 
+            INFO,
+            TransRec.StatusMsgOn);
+
+          -- Get number of FIFO elements
+          NumFifoElements := TransRec.DataWidth ;
+          log(ModelID, 
+            "Number of FIFO elements = " & to_string(NumFifoElements), 
+            INFO,
+            TransRec.StatusMsgOn) ;
+          
+          -- Get Starting address
+          LocalAddress := SafeResize(TransRec.Address, Address'length);
+          log(ModelID, 
+            "Start address = " & to_hxstring(LocalAddress), 
+            INFO,
+            TransRec.StatusMsgOn) ;
+
+          -- Do read burst:
+          -- read operation starts by presenting address
+          Address <= LocalAddress after tpd_Clk_Address ;
+          Write   <= '0' after tpd_Clk_Write ; 
+          WaitForClock(Clk) ; 
+          
+          for ReadLoop in 1 to NumFifoElements loop
+            -- read Operation Accepted at this clock edge
+            
+            -- Increment LocalAddress and present next address
+            LocalAddress := LocalAddress + 1;
+            Address <= LocalAddress after tpd_Clk_Address ;
+            Write   <= '0' after tpd_Clk_Write ; 
+            WaitForClock(Clk) ; 
+
+            -- read operations copmleted at this clock edge and data available @iData
+            Push(TransRec.ReadBurstFifo, SafeResize(iData, TransRec.DataFromModel'length));
+
+            Log( ModelID,
+              "Read Operation, Address: " & to_hxstring(LocalAddress - 1) & -- "... - 1" since read is from previous loop
+              "  Data: " & to_hxstring(iData) &
+              "  Operation# " & to_string (TransRec.Rdy),
+              INFO,
+              TransRec.StatusMsgOn
+            ) ;
+          end loop;
+
         when MULTIPLE_DRIVER_DETECT =>
           Alert(ModelID, "Multiple Drivers on Transaction Record." & 
                          "  Transaction # " & to_string(TransRec.Rdy), FAILURE) ;

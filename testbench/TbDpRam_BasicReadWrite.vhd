@@ -43,7 +43,6 @@ architecture BasicReadWrite of TestCtrl is
 
   signal Sync1, TestDone : integer_barrier := 1 ;
   signal TbID : AlertLogIDType ; 
-
 begin
 
   ------------------------------------------------------------
@@ -84,7 +83,7 @@ begin
 
   ------------------------------------------------------------
   -- Manager1Proc
-  --   Generate transactions for AxiManager
+  --   Generate transactions for DpRamManager
   ------------------------------------------------------------
   Manager1Proc : process
     variable Data : std_logic_vector(DATA_WIDTH-1 downto 0) ; 
@@ -108,14 +107,37 @@ begin
     for i in 6 to 10 loop 
       ReadCheck(Manager1Rec, X"02_0000" + i, X"2000" + i) ;
     end loop ;
+	
+    WaitForClock(Manager1Rec, 6) ; 
+    -- EXTRA: 
+    -- Burst write and read
+    
+    -- First, add values to the write fifo
+    for i in 1 to 10 loop
+      Push(Manager1Rec.WriteBurstFifo, X"3000" + i);
+    end loop;
+    
+    -- then write them to the dpram
+    WriteBurst(Manager1Rec, X"03_0001", 10); -- 03_0001 since i starts from 1 in for loop
 
+    WaitForClock(Manager1Rec, 8) ; -- synchronize with other dpramcontroller
+
+    -- Then, we can check if the value were written correctly
+	
+    ReadBurst(Manager1Rec, X"04_0001", 10);
+    
+    -- and finally check the received values
+    for i in 1 to 10 loop
+    	CheckExpected(Manager1Rec.ReadBurstFifo, X"4000" + i);
+    end loop;
+	
     WaitForBarrier(TestDone) ;
     wait ;
   end process Manager1Proc ;
   
   ------------------------------------------------------------
   -- Manager2Proc
-  --   Generate transactions for AxiManager
+  --   Generate transactions for DpRamManager
   ------------------------------------------------------------
   Manager2Proc : process
     variable Data : std_logic_vector(DATA_WIDTH-1 downto 0) ; 
@@ -139,6 +161,23 @@ begin
     for i in 6 to 10 loop 
       ReadCheck(Manager2Rec, X"01_0000" + i, X"1000" + i) ;
     end loop ;
+
+    WaitForClock(Manager2Rec, 6) ; 
+
+    for i in 1 to 10 loop
+      Push(Manager2Rec.WriteBurstFifo, X"4000" + i);
+    end loop;
+    
+    WriteBurst(Manager2Rec, X"04_0001", 10); 
+
+    WaitForClock(Manager2Rec, 8) ; 
+
+    ReadBurst(Manager2Rec, X"03_0001", 10);
+    
+    -- and finally check the received values
+    for i in 1 to 10 loop
+    	CheckExpected(Manager2Rec.ReadBurstFifo, X"3000" + i);
+    end loop;
 
     WaitForBarrier(TestDone) ;
 

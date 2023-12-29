@@ -42,13 +42,4 @@
 # PT version in a separate library so can do a compile test,
 # without causing GHDL to fail due to duplicate entities.
 #
-library osvvm_DpRam_PT
-analyze ./src/DpRam_PT.vhd
-
-library osvvm_DpRam
-analyze ./src/DpRam_Singleton.vhd
-
-analyze ./src/DpRamController_Blocking.vhd
-
-analyze ./src/DpRamComponentPkg.vhd
-analyze ./src/DpRamContext.vhd
+include src

@@ -39,4 +39,10 @@
 #  
 
 # Currently there is only one test, so run it via RunAllTests
-include RunAllTests.pro
+TestSuite DpRam
+
+if {$::osvvm::ToolNameVersion ne "XSIM-2023.2"}  {
+  include testbench/build_one.pro
+} else {
+  include testbench_xilinx/build_one.pro
+}

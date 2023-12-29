@@ -71,15 +71,20 @@ architecture Singleton of DpRam is
   constant RESOLVED_MEMORY_NAME : string :=
     IfElse(MEMORY_NAME /= "", MEMORY_NAME, to_lower(PathTail(DpRam'PATH_NAME))) ;
     
-  constant Mem : MemoryIdType := NewID(
-    Name      => RESOLVED_MEMORY_NAME, 
-    AddrWidth => ADDR_WIDTH,  
-    DataWidth => DATA_WIDTH, 
-    Search    => NAME
-  ) ;
+  signal Mem : MemoryIdType ;
   
   signal iDataOutA, iDataOutB : std_logic_vector(DATA_WIDTH-1 downto 0) ;
 begin
+  Initialize : process
+  begin
+    Mem <= NewID(
+      Name      => RESOLVED_MEMORY_NAME, 
+      AddrWidth => ADDR_WIDTH,  
+      DataWidth => DATA_WIDTH, 
+      Search    => NAME
+      ) ;
+    wait ; 
+  end process Initialize ; 
   
   MemProcA : process (ClkA) 
   begin

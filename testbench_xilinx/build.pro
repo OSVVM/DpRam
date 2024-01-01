@@ -1,4 +1,4 @@
-#  File Name:         DpRam.pro
+#  File Name:         testbench.pro
 #  Revision:          STANDARD VERSION
 #
 #  Maintainer:        Jim Lewis      email:  jim@synthworks.com
@@ -7,7 +7,7 @@
 #
 #
 #  Description:
-#        Script to compile the DpRam models  
+#        Script to run one DpRam test  
 #
 #  Developed for:
 #        SynthWorks Design Inc.
@@ -36,10 +36,16 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
-#
+#  
 
-#
-# PT version in a separate library so can do a compile test,
-# without causing GHDL to fail due to duplicate entities.
-#
-include src
+library osvvm_TbDpRam
+
+analyze  OsvvmTestCommonPkg.vhd
+
+analyze  TestCtrl_e.vhd
+analyze  TbDpRam.vhd
+
+analyze   TbDpRam_BasicReadWrite.vhd
+TestName  TbDpRam_BasicReadWrite
+simulate  TbDpRam
+

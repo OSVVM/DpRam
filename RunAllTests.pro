@@ -38,6 +38,9 @@
 #  limitations under the License.
 #
 TestSuite DpRam
-library osvvm_TbDpRam
-build ./DpRam.pro
-include ./testbench
+
+if {$::osvvm::ToolNameVersion ne "XSIM-2023.2"}  {
+  include ./testbench
+} else {
+  include testbench_xilinx
+}

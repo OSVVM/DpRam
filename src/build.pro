@@ -42,4 +42,16 @@
 # PT version in a separate library so can do a compile test,
 # without causing GHDL to fail due to duplicate entities.
 #
-include src
+library osvvm_DpRam_PT
+analyze DpRam_PT.vhd
+
+library osvvm_DpRam
+analyze DpRam_Singleton.vhd
+
+if {$::osvvm::ToolNameVersion ne "XSIM-2023.2"}  {
+  analyze DpRamController_Blocking.vhd
+} else {
+  analyze DpRamController_Blocking_xilinx.vhd
+}
+analyze DpRamComponentPkg.vhd
+analyze DpRamContext.vhd

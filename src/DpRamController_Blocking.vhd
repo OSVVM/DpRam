@@ -19,6 +19,7 @@
 --
 --  Revision History:
 --    Date      Version    Description
+--    03/2024   2024.03    Updated SafeResize to use ModelID
 --    05/2023   2023.05    Added LocalAddress to hold address so read operation log correct address
 --    03/2022   2022.03    Initial revision
 --
@@ -145,9 +146,9 @@ begin
 
         -- Model Transaction Dispatch
         when WRITE_OP =>
-          LocalAddress := SafeResize(TransRec.Address, Address'length);
+          LocalAddress := SafeResize(ModelID, TransRec.Address, Address'length);
           Address <= LocalAddress after tpd_Clk_Address ;
-          oData   <= SafeResize(TransRec.DataToModel, oData'length)  after tpd_Clk_oData ;
+          oData   <= SafeResize(ModelID, TransRec.DataToModel, oData'length)  after tpd_Clk_oData ;
           Write   <= '1' after tpd_Clk_Write ; 
           WaitForClock(Clk) ; 
           
@@ -164,7 +165,7 @@ begin
           Write   <= '0' after tpd_Clk_Write ; 
           
         when READ_OP | READ_CHECK =>
-          LocalAddress := SafeResize(TransRec.Address, Address'length);
+          LocalAddress := SafeResize(ModelID, TransRec.Address, Address'length);
           Address <= LocalAddress after tpd_Clk_Address ;
           Write   <= '0' after tpd_Clk_Write ; 
           WaitForClock(Clk) ; 
@@ -177,10 +178,10 @@ begin
 --            WaitForClock(Clk) ; 
 --          end if ; 
           
-          TransRec.DataFromModel <= SafeResize(iData, TransRec.DataFromModel'length) ;
+          TransRec.DataFromModel <= SafeResize(ModelID, iData, TransRec.DataFromModel'length) ;
 
           if IsReadCheck(Operation) then
-            ExpectedData  := SafeResize(TransRec.DataToModel, ExpectedData'length) ;
+            ExpectedData  := SafeResize(ModelID, TransRec.DataToModel, ExpectedData'length) ;
             AffirmIfEqual(ModelID,
               iData, ExpectedData,
               "Read Operation, Address: " & to_hxstring(LocalAddress) &
@@ -199,9 +200,9 @@ begin
           end if ; 
           
         when WRITE_AND_READ =>
-          LocalAddress := SafeResize(TransRec.Address, Address'length);
+          LocalAddress := SafeResize(ModelID, TransRec.Address, Address'length);
           Address <= LocalAddress after tpd_Clk_Address ;
-          oData   <= SafeResize(TransRec.DataToModel, oData'length)  after tpd_Clk_oData ;
+          oData   <= SafeResize(ModelID, TransRec.DataToModel, oData'length)  after tpd_Clk_oData ;
           Write   <= '1' after tpd_Clk_Write ; 
           
           WaitForClock(Clk) ; 
@@ -222,10 +223,10 @@ begin
 --            WaitForClock(Clk) ; 
 --          end if ; 
           
-          TransRec.DataFromModel <= SafeResize(iData, TransRec.DataFromModel'length) ;
+          TransRec.DataFromModel <= SafeResize(ModelID, iData, TransRec.DataFromModel'length) ;
           
           if IsReadCheck(Operation) then
-            ExpectedData  := SafeResize(TransRec.DataToModel, ExpectedData'length) ;
+            ExpectedData  := SafeResize(ModelID, TransRec.DataToModel, ExpectedData'length) ;
             AffirmIfEqual(ModelID,
               iData, ExpectedData,
               "Read Operation, Address: " & to_hxstring(LocalAddress) &
@@ -257,7 +258,7 @@ begin
               TransRec.StatusMsgOn) ;
             
             -- Get Starting address
-            LocalAddress := SafeResize(TransRec.Address, Address'length);
+            LocalAddress := SafeResize(ModelID, TransRec.Address, Address'length);
             log(ModelID, 
               "Start address = " & to_hxstring(LocalAddress), 
               INFO,
@@ -301,7 +302,7 @@ begin
             TransRec.StatusMsgOn) ;
           
           -- Get Starting address
-          LocalAddress := SafeResize(TransRec.Address, Address'length);
+          LocalAddress := SafeResize(ModelID, TransRec.Address, Address'length);
           log(ModelID, 
             "Start address = " & to_hxstring(LocalAddress), 
             INFO,
@@ -323,7 +324,7 @@ begin
             WaitForClock(Clk) ; 
 
             -- read operations copmleted at this clock edge and data available @iData
-            Push(TransRec.ReadBurstFifo, SafeResize(iData, TransRec.DataFromModel'length));
+            Push(TransRec.ReadBurstFifo, SafeResize(ModelID, iData, TransRec.DataFromModel'length));
 
             Log( ModelID,
               "Read Operation, Address: " & to_hxstring(LocalAddress - 1) & -- "... - 1" since read is from previous loop

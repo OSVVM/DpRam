@@ -2,8 +2,12 @@
 
 | Revision  |  Release Summary | 
 ------------|----------- 
+| 2024.03   | Updated calls to SafeResize
 | 2023.05   | Bug Fix to logging of address during read operation
 | 2022.03   | Initial release
+
+## 2024.03
+- Updated calls to SafeResize
 
 ## 2022.05 March 2022
 - DpRamController_Blocking.vhd

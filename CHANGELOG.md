@@ -2,9 +2,14 @@
 
 | Revision  |  Release Summary | 
 ------------|----------- 
+| 2024.07   | Removed SafeResize from Push in ReadBurst.  CreateClock moved
 | 2024.03   | Updated calls to SafeResize
 | 2023.05   | Bug Fix to logging of address during read operation
 | 2022.03   | Initial release
+
+## 2024.07
+- Removed SafeResize from Push in ReadBurst.  
+- CreateClock moved to ClockResetPkg
 
 ## 2024.03
 - Updated calls to SafeResize

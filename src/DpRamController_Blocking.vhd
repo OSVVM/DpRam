@@ -324,7 +324,8 @@ begin
             WaitForClock(Clk) ; 
 
             -- read operations copmleted at this clock edge and data available @iData
-            Push(TransRec.ReadBurstFifo, SafeResize(ModelID, iData, TransRec.DataFromModel'length));
+--            Push(TransRec.ReadBurstFifo, SafeResize(ModelID, iData, TransRec.DataFromModel'length));
+            Push(TransRec.ReadBurstFifo, iData); -- FifoWidth matches size of iData
 
             Log( ModelID,
               "Read Operation, Address: " & to_hxstring(LocalAddress - 1) & -- "... - 1" since read is from previous loop

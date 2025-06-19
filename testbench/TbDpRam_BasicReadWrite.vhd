@@ -74,7 +74,7 @@ begin
     
     TranscriptClose ; 
     -- Printing differs in different simulators due to differences in process order execution
-    -- AlertIfDiff("./results/TbDpRam_BasicReadWrite.txt", "../DpRam/testbench/validated_results/TbDpRam_BasicReadWrite.txt", "") ; 
+    -- AffirmIfTranscriptsMatch(PATH_TO_VALIDATED_RESULTS) ;
 
     EndOfTestReports ; 
     std.env.stop ; 

@@ -39,8 +39,4 @@
 #
 TestSuite DpRam
 
-if {$::osvvm::ToolNameVersion ne "XSIM-2023.2"}  {
-  include ./testbench
-} else {
-  include testbench_xilinx
-}
+include ./testbench

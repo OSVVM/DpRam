@@ -2,6 +2,8 @@
 
 | Revision  |  Release Summary | 
 ------------|----------- 
+| 2025.06   |  build.pro replaced <DirectoryName>.pro.  Autogenerate OsvvmTestCommonPkg.  Update testbenches for TranscriptOpen and AffirmIfTranscriptsMatch
+|           |  Removed Xilinx 2023.2 specializations as not completely working
 | 2024.07   | Removed SafeResize from Push in ReadBurst.  CreateClock moved
 | 2024.03   | Updated calls to SafeResize
 | 2023.05   | Bug Fix to logging of address during read operation

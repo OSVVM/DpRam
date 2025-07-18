@@ -40,7 +40,7 @@
 
 library osvvm_TbDpRam
 
-analyze  OsvvmTestCommonPkg.vhd
+analyze [CreateTestCaseCommonPkg OsvvmTestCommonPkg ../ValidatedResults]
 
 analyze  TestCtrl_e.vhd
 analyze  TbDpRam.vhd

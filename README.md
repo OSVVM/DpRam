@@ -47,7 +47,7 @@ You can find the project [Authors here](AUTHORS.md) and
 
 ### DpRam/src
 DpRam behavioral and verification components.
-Build these using DpRam/DpRam.pro script.  
+Build these using DpRam/build.pro script.  
 
 
 ### DpRam/testbench
